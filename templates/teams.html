@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teams - Ideathon 2025</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-5">Teams List</h1>
+        <table class="table w-full border">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Team Name</th>
+                    <th>Problem ID</th>
+                    <th>Domain</th>
+                    <th>Status</th>
+                    <th>AI Scores</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team[0] }}</td>
+                    <td>{{ team[1] }}</td>
+                    <td>{{ team[2] }}</td>
+                    <td>{{ team[3] }}</td>
+                    <td class="{% if team[6] == 'Red' %}text-red-500{% elif team[6] == 'Orange' %}text-yellow-500{% else %}text-green-500{% endif %}">
+                        {{ team[6] }}
+                    </td>
+                    <td>{{ team[5] }}</td>
+                    <td>
+                        {% if team[6] == 'Orange' %}
+                        <form action="/review/{{ team[0] }}" method="post">
+                            <input type="number" name="presentation_score" placeholder="Presentation Score" required class="input input-bordered w-24">
+                            <input type="text" name="judge_opinion" placeholder="Judge's Opinion" required class="input input-bordered w-64">
+                            <button type="submit" class="btn btn-warning">Submit Review</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

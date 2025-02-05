@@ -1,0 +1,17 @@
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite Database (Protects DB from being committed)
+database.db
+*.sqlite3
+
+# Config File (Holds API keys, DB credentials, etc.)
+config.py
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo

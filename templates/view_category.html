@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ category }} Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-5">{{ category }} Panel</h1>
+        
+        <table class="table w-full border">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Team Name</th>
+                    <th>Problem ID</th>
+                    <th>Domain</th>
+                    <th>Scores</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team[0] }}</td>
+                    <td>{{ team[1] }}</td>
+                    <td>{{ team[2] }}</td>
+                    <td>{{ team[3] }}</td>
+                    <td>
+                        <ul>
+                            <li>Relevance: {{ team[5] }}</li>
+                            <li>Innovation: {{ team[6] }}</li>
+                            <li>Usefulness: {{ team[7] }}</li>
+                            <li>Originality: {{ team[8] }}</li>
+                            <li>Feasibility: {{ team[9] }}</li>
+                            <li>Future Scope: {{ team[10] }}</li>
+                            <li>Sustainability: {{ team[11] }}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="/download/{{ team[0] }}" class="btn btn-primary">Download PPT</a>
+                        {% if category == 'Red' %}
+                        <a href="/move_to_orange/{{ team[0] }}" class="btn btn-warning">Move to Orange</a>
+                        {% endif %}
+                        {% if category == 'Orange' %}
+                        <form action="/review/{{ team[0] }}" method="post">
+                            <input type="number" name="presentation_score" placeholder="Presentation Score" required class="input input-bordered w-24">
+                            <input type="number" name="judges_opinion_score" placeholder="Judge's Opinion" required class="input input-bordered w-24">
+                            <button type="submit" class="btn btn-success">Review</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

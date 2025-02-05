@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Upload PPT - Ideathon</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-5">Upload PPT for Evaluation</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label class="block text-lg">Team Name</label>
+            <input type="text" name="team_name" class="input input-bordered w-full mb-3" required>
+
+            <label class="block text-lg">Problem Statement ID</label>
+            <input type="text" name="problem_id" class="input input-bordered w-full mb-3" required>
+
+            <label class="block text-lg">Domain</label>
+            <select name="domain" class="select select-bordered w-full mb-3">
+                <option>Data Science</option>
+                <option>Cybersecurity</option>
+                <option>IoT</option>
+            </select>
+
+            <label class="block text-lg">Upload PPT</label>
+            <input type="file" name="ppt" accept=".ppt,.pptx" class="file-input file-input-bordered w-full mb-3" required>
+
+            <button type="submit" class="btn btn-primary w-full">Upload</button>
+        </form>
+    </div>
+</body>
+</html>
