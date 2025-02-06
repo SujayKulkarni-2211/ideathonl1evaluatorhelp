@@ -157,6 +157,88 @@ def download_ppt(team_id):
 
     return "File not found", 404
 
+@app.route('/review/<int:team_id>', methods=['GET', 'POST'])
+def review_team(team_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        
+        # Fetch the team's current details
+        cursor.execute("SELECT * FROM teams WHERE id=?", (team_id,))
+        team = cursor.fetchone()
+
+    if not team:
+        return "Team not found", 404
+
+    if request.method == 'POST':
+        # Get updated scores from form submission
+        relevance = request.form.get('relevance', team[5])
+        innovation = request.form.get('innovation', team[6])
+        usefulness = request.form.get('usefulness', team[7])
+        originality = request.form.get('originality', team[8])
+        feasibility = request.form.get('feasibility', team[9])
+        future_scope = request.form.get('future_scope', team[10])
+        sustainability = request.form.get('sustainability', team[11])
+        presentation = request.form.get('presentation', team[12])
+        judges_opinion_score = request.form.get('judges_opinion_score', team[13])
+        flag = request.form.get('flag', team[14])  # Keep the flag as is or update it
+
+        # Update database
+        with sqlite3.connect(DATABASE) as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE teams SET 
+                relevance=?, innovation=?, usefulness=?, originality=?, feasibility=?, 
+                future_scope=?, sustainability=?, presentation=?, judges_opinion_score=?, flag=?
+                WHERE id=?
+            """, (relevance, innovation, usefulness, originality, feasibility, 
+                  future_scope, sustainability, presentation, judges_opinion_score, flag, team_id))
+            conn.commit()
+
+        return redirect(url_for('view_category', category=flag))  # Redirect to the respective category
+
+    return render_template('review.html', team=team)
+
+@app.route('/move_to_green/<int:team_id>')
+def move_to_green(team_id):
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE teams SET flag='Green' WHERE id=?", (team_id,))
+        conn.commit()
+
+    return redirect(url_for('view_category', category='Orange'))
+
+@app.route('/update_scores/<int:team_id>', methods=['POST'])
+def update_scores(team_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    presentation_score = request.form.get('presentation_score')
+    judges_opinion_score = request.form.get('judges_opinion_score')
+
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE teams 
+            SET presentation=?, judges_opinion_score=?
+            WHERE id=?
+        """, (presentation_score, judges_opinion_score, team_id))
+        conn.commit()
+
+    return redirect(url_for('view_category', category='Green'))
+
+@app.route('/move_to_red/<int:team_id>')
+def move_to_red(team_id):
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE teams SET flag='Red' WHERE id=?", (team_id,))
+        conn.commit()
+
+    return redirect(url_for('view_category', category='Green'))
+
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)

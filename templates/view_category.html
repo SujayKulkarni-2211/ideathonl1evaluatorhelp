@@ -44,12 +44,26 @@
                         <a href="/move_to_orange/{{ team[0] }}" class="btn btn-warning">Move to Orange</a>
                         {% endif %}
                         {% if category == 'Orange' %}
-                        <form action="/review/{{ team[0] }}" method="post">
-                            <input type="number" name="presentation_score" placeholder="Presentation Score" required class="input input-bordered w-24">
-                            <input type="number" name="judges_opinion_score" placeholder="Judge's Opinion" required class="input input-bordered w-24">
-                            <button type="submit" class="btn btn-success">Review</button>
-                        </form>
+                        <a href="/review/{{ team[0] }}" class="btn btn-warning">Review & Edit Scores</a>
+                        <a href="/move_to_green/{{ team[0] }}" class="btn btn-success">Move to Green</a>
                         {% endif %}
+                        {% if category == 'Green' %}
+    <form action="/update_scores/{{ team[0] }}" method="post">
+        <label class="block text-sm">Presentation Score</label>
+        <input type="number" name="presentation_score" value="{{ team[12] if team[12] is not none else '' }}" 
+               class="input input-bordered w-24 mb-2" min="0" max="10" required>
+
+        <label class="block text-sm">Judge's Opinion Score</label>
+        <input type="number" name="judges_opinion_score" value="{{ team[13] if team[13] is not none else '' }}" 
+               class="input input-bordered w-24 mb-2" min="0" max="10" required>
+
+        <button type="submit" class="btn btn-success btn-sm mt-2">Save Scores</button>
+    </form>
+    
+    <a href="/review/{{ team[0] }}" class="btn btn-warning mt-2">Edit Scores</a>
+    <a href="/move_to_red/{{ team[0] }}" class="btn btn-error mt-2">Move to Red</a>
+{% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}

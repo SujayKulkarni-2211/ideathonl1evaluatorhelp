@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Review Team</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-5">Review & Edit Scores</h1>
+        
+        <form action="/review/{{ team[0] }}" method="post">
+            <label class="block text-lg">Relevance to Problem Statement (Max 20)</label>
+            <input type="number" name="relevance" value="{{ team[5] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Innovation & Creativity (Max 20)</label>
+            <input type="number" name="innovation" value="{{ team[6] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Usefulness (Max 15)</label>
+            <input type="number" name="usefulness" value="{{ team[7] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Originality of Idea (Max 15)</label>
+            <input type="number" name="originality" value="{{ team[8] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Technical Feasibility (Max 10)</label>
+            <input type="number" name="feasibility" value="{{ team[9] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Future Scope & Market Potential (Max 10)</label>
+            <input type="number" name="future_scope" value="{{ team[10] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Sustainability & Green Impact (Max 5)</label>
+            <input type="number" name="sustainability" value="{{ team[11] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Presentation (Max 15)</label>
+            <input type="number" name="presentation" value="{{ team[12] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Judge's Opinion Score (Max 5)</label>
+            <input type="number" name="judges_opinion_score" value="{{ team[13] }}" class="input input-bordered w-full mb-3">
+
+            <label class="block text-lg">Update Status</label>
+            <select name="flag" class="select select-bordered w-full mb-3">
+                <option value="Orange" {% if team[14] == 'Orange' %} selected {% endif %}>Orange</option>
+                <option value="Green" {% if team[14] == 'Green' %} selected {% endif %}>Move to Green</option>
+                <option value="Red" {% if team[14] == 'Red' %} selected {% endif %}>Move to Red</option>
+            </select>
+
+
+            <button type="submit" class="btn btn-success w-full">Update Scores</button>
+        </form>
+
+        <a href="/view/{{ team[14] }}" class="btn btn-secondary mt-5">Back</a>
+    </div>
+</body>
+</html>
